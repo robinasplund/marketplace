@@ -4,7 +4,7 @@ import User from './components/User.jsx'
 
 function App() {
 
-  const users = [
+  const [users,setUsers] = useState([
     {
       userName: "Göran Andersson",
       userId: "0001",
@@ -49,20 +49,33 @@ function App() {
         }
       ]   
     }
-  ];
+  ]);
 
-  const [loggedInUser,setLoggedInUser] = useState("Göran Andersson");
+
+  const [loggedInUser,setLoggedInUser] = useState("Petra Hallonqvist");
   const selectedUser = users.find(user => user.userName === loggedInUser);
 
-  console.log(loggedInUser);
+  console.log(loggedInUser); 
+
+  const handleAddItem = (newItem) => {
+    const updatedUsers = users.map( user=> {
+      if(user.userName===loggedInUser){
+        return{...user,userItems:[...user.userItems,newItem]};
+      }
+      return user;
+    })
+    setUsers(updatedUsers);
+  }
   
 
   return (
 
     <div className="grid grid-cols-1 items-center gap-6 p-8 border">
 
+      <h1>Marketplace</h1>
+
       {selectedUser ? (
-        <User name={selectedUser.userName} id={selectedUser.userId} items={selectedUser.userItems} />
+        <User name={selectedUser.userName} id={selectedUser.userId} items={selectedUser.userItems} addItem={handleAddItem} />
       ):(
         <p>ingen användare hittades</p>
       )}
