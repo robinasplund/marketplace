@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Item from './Item.jsx';
 
-const User = ({ name, id, items, addItem }) => {
+const User = ({ name, id, items, addItem, deleteItem }) => {
   const [form, setForm] = useState({
     name: '',
     description: '',
@@ -18,6 +18,8 @@ const User = ({ name, id, items, addItem }) => {
     addItem(form);
     setForm({ name: '', description: '', category: '', price: '' });
   };
+
+ 
 
   return (
     <div className="w-full">
@@ -85,6 +87,7 @@ const User = ({ name, id, items, addItem }) => {
             description={item.description}
             category={item.category}
             price={item.price}
+            deleteItem={()=>deleteItem(item)}
           />
         ))}
       </div>

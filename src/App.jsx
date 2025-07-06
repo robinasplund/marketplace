@@ -66,6 +66,16 @@ function App() {
     })
     setUsers(updatedUsers);
   }
+
+  const deleteItem = (itemToDelete) => {
+    const updatedUsers = users.map( user=> {
+      if(user.userName===loggedInUser){
+        return{...user, userItems: user.userItems.filter( item=> item.name !== itemToDelete.name )};
+      }
+      return user;
+    })
+    setUsers(updatedUsers);
+  }
   
 
   return (
@@ -75,7 +85,13 @@ function App() {
       <h1>Marketplace</h1>
 
       {selectedUser ? (
-        <User name={selectedUser.userName} id={selectedUser.userId} items={selectedUser.userItems} addItem={handleAddItem} />
+        <User 
+          name={selectedUser.userName} 
+          id={selectedUser.userId} 
+          items={selectedUser.userItems} 
+          addItem={handleAddItem} 
+          deleteItem={deleteItem}
+        />
       ):(
         <p>ingen användare hittades</p>
       )}
