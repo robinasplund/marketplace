@@ -6,9 +6,9 @@ function App() {
 
   const [users,setUsers] = useState([
     {
-      userName: "Göran Andersson",
-      userId: "0001",
-      userItems: [
+      name: "Göran Andersson",
+      id: "0001",
+      items: [
         {
           name: "Armani shirt",
           description: "A nice shirt I bought in Mallorca last year. Size Xl",
@@ -30,9 +30,9 @@ function App() {
       ]   
     },
     {
-      userName: "Petra Hallonqvist",
-      userId: "0002",
-      userItems: [
+      name: "Petra Hallonqvist",
+      id: "0002",
+      items: [
         {
           name: "Black boots",
           id: "3",
@@ -51,16 +51,13 @@ function App() {
     }
   ]);
 
-
   const [loggedInUser,setLoggedInUser] = useState("Petra Hallonqvist");
-  const selectedUser = users.find(user => user.userName === loggedInUser);
+  const selectedUser = users.find(user => user.name === loggedInUser);
 
-  console.log(loggedInUser); 
-
-  const handleAddItem = (newItem) => {
+  const addItem = (newItem) => {
     const updatedUsers = users.map( user=> {
-      if(user.userName===loggedInUser){
-        return{...user,userItems:[...user.userItems,newItem]};
+      if(user.name===loggedInUser){
+        return{...user, items:[...user.items,newItem]};
       }
       return user;
     })
@@ -69,8 +66,8 @@ function App() {
 
   const deleteItem = (itemToDelete) => {
     const updatedUsers = users.map( user=> {
-      if(user.userName===loggedInUser){
-        return{...user, userItems: user.userItems.filter( item=> item.name !== itemToDelete.name )};
+      if(user.name===loggedInUser){
+        return{...user, items: user.items.filter( item=> item.name !== itemToDelete.name )};
       }
       return user;
     })
@@ -86,10 +83,10 @@ function App() {
 
       {selectedUser ? (
         <User 
-          name={selectedUser.userName} 
-          id={selectedUser.userId} 
-          items={selectedUser.userItems} 
-          addItem={handleAddItem} 
+          name={selectedUser.name} 
+          id={selectedUser.id} 
+          items={selectedUser.items} 
+          addItem={addItem} 
           deleteItem={deleteItem}
         />
       ):(
