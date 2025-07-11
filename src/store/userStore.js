@@ -1,48 +1,21 @@
 
-import {create} from 'zustand';
+import { create } from 'zustand';
+import { supabase } from '../lib/supabase';
 
-export const useUserStore = create( (set) => ({
+export const useUserStore = create((set) => ({
 
-    users:[
-      {
-        name: "Göran Andersson",
-        id: "0001",
-        items: [
-          { name: "Armani shirt", description: "A nice shirt...", category: "clothes", price: "300 kr" },
-          { name: "Rain jacket", description: "Rain jacket...", category: "clothes", price: "500 kr" },
-          { name: "Playstation 4", description: "My sons old...", category: "Electronics", price: "1500 kr" }
-        ]
-      },
-      {
-        name: "Bosse Eliasson",
-        id: "0002",
-        items: [
-          { name: "Tv 66 inch", description: "Completely new TV...", category: "Electronics", price: "3000 kr" },
-          { name: "Bike", description: "My old bike...", category: "Vehicles", price: "500 kr" },
-          { name: "Jeans denim XL", description: "My sons old...", category: "Clothes", price: "500 kr" }
-        ]
-      }
-    ],
+  user: null,
+  setUser: (user) => set ({ user: user }),
 
-    loggedInUser: "Göran Andersson",
-    setLoggedInUser: (name) => set({ loggedInUser: name }),
+  fetchUser: async () => {
+    const { data, error } = await supabase.auth.getUser();
+    if (error) {
+      console.error('Fel vid hämtning av användare', error.message);
+    } else {
+      set({ user: data.user });
+    }
+  },
 
-    addItem: (newItem) => set((state) => ({
-      users: state.users.map(user => 
-        user.name === state.loggedInUser
-          ? {...user, items: [...user.items, newItem] }
-          : user
-      )
-    })),
-    deleteItem: (itemToDelete) => set((state) => ({
-      users: state.users.map(user =>
-        user.name === state.loggedInUser
-          ? {
-              ...user,
-              items: user.items.filter(item => item.name !== itemToDelete.name)
-            }
-          : user
-      )
-    }))
+  clearUser: () => set({ user: null }),
 
 }));
