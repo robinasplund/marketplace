@@ -5,6 +5,7 @@ import Item from './Item.jsx';
 const User = () => {
 
   const user = useUserStore((state) => state.user);
+  const signOut = useUserStore((state) => state.signOut);
   const fetchItems = useUserStore((state) => state.fetchItems);
   const addItem = useUserStore((state) => state.addItem);
   const deleteItem = useUserStore((state) => state.deleteItem);
@@ -47,6 +48,12 @@ const User = () => {
   return (
     <div className="p-6">
       <h2 className="text-xl font-bold mb-4">Välkommen {user.email}</h2>
+      <button 
+        onClick={signOut}
+        className="bg-red-600 text-white px-4 py-2 rounded mb-4"
+      >
+        Logga ut
+      </button>
 
       <form onSubmit={handleSubmit} className="mb-4 space-y-2">
         <input name="name" placeholder="Namn" value={form.name} onChange={handleChange} className="border p-2 w-full" />

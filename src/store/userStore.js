@@ -16,6 +16,15 @@ export const useUserStore = create((set) => ({
     }
   },
 
+  signOut: async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error('Misslyckades logga ut', error.message);
+    } else {
+      set({ user: null });
+    }
+  },
+
   fetchItems: async () => {
 
     const { user } = useUserStore.getState();
