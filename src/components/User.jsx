@@ -1,94 +1,64 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useUserStore } from '../store/userStore';
 import Item from './Item.jsx';
 
-const User = ({ name, id, items, addItem, deleteItem }) => {
+const User = () => {
+
+  const user = useUserStore((state) => state.user);
+  const fetchItems = useUserStore((state) => state.fetchItems);
+  const addItem = useUserStore((state) => state.addItem);
+  const deleteItem = useUserStore((state) => state.deleteItem);
+
+  const [items, setItems] = useState([]);
   const [form, setForm] = useState({
     name: '',
     description: '',
     category: '',
-    price: ''
+    price: '',
   });
+
+  useEffect(() => {
+    const loadItems = async () => {
+      const data = await fetchItems();
+      setItems(data);
+    };
+
+    loadItems();
+  }, []);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    addItem(form);
-    setForm({ name: '', description: '', category: '', price: '' });
-  };
+    await addItem(form);
+    const updatedItems = await fetchItems();
+    setItems(updatedItems);
+    setForm({ name:'', description:'', category:'', price:'' });
+  } 
 
- 
+  const handleDelete = async (itemId) => {
+    await deleteItem(itemId);
+    const updatedItems = await fetchItems();
+    setItems(updatedItems);
+  }
 
   return (
-    <div className="w-full">
-      
-      {/* Header-sektion */}
-      <div className="bg-white shadow-md rounded-xl p-6 mb-8 border">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+    <div className="p-6">
+      <h2 className="text-xl font-bold mb-4">Välkommen {user.email}</h2>
 
-          {/* Vänster kolumn: användarinfo */}
-          <div>
-            <h2 className="text-2xl font-bold text-gray-800">{name}</h2>
-            <p className="text-sm text-gray-500">@{name.toLowerCase().replace(/\s+/g, '_')}</p>
-            <p className="text-sm text-gray-400 mt-1">Användar-ID: {id}</p>
-          </div>
+      <form onSubmit={handleSubmit} className="mb-4 space-y-2">
+        <input name="name" placeholder="Namn" value={form.name} onChange={handleChange} className="border p-2 w-full" />
+        <input name="description" placeholder="Beskrivning" value={form.description} onChange={handleChange} className="border p-2 w-full" />
+        <input name="category" placeholder="Kategori" value={form.category} onChange={handleChange} className="border p-2 w-full" />
+        <input name="price" placeholder="Pris" value={form.price} onChange={handleChange} className="border p-2 w-full" />
+        <button className="bg-blue-600 text-white p-2 w-full">Lägg till</button>
+      </form>
 
-          {/* Höger kolumner: formulär */}
-          <div className="lg:col-span-2 bg-gray-50 p-4 rounded-xl border">
-            <h3 className="text-lg font-semibold text-gray-700 mb-4">Lägg till vara</h3>
-            <form onSubmit={handleSubmit} className="space-y-3">
-              <input
-                className="w-full p-2 border rounded"
-                name="name"
-                placeholder="Namn"
-                value={form.name}
-                onChange={handleChange}
-              />
-              <input
-                className="w-full p-2 border rounded"
-                name="description"
-                placeholder="Beskrivning"
-                value={form.description}
-                onChange={handleChange}
-              />
-              <input
-                className="w-full p-2 border rounded"
-                name="category"
-                placeholder="Kategori"
-                value={form.category}
-                onChange={handleChange}
-              />
-              <input
-                className="w-full p-2 border rounded"
-                name="price"
-                placeholder="Pris"
-                value={form.price}
-                onChange={handleChange}
-              />
-              <button
-                type="submit"
-                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-              >
-                Lägg till
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
-
-      {/* Varulista */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {items.map((item, index) => (
-          <Item
-            key={index}
-            name={item.name}
-            description={item.description}
-            category={item.category}
-            price={item.price}
-            deleteItem={()=>deleteItem(item)}
-          />
+      <div className="grid gap-4">
+        {items.map((item) => (
+          <Item key={item.id} {...item} deleteItem={() => handleDelete(item.id)} />
         ))}
       </div>
     </div>
