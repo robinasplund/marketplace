@@ -16,6 +16,17 @@ const User = () => {
     price: '',
   });
 
+  const categories = [
+    "Elektronik",
+    "Kläder",
+    "Böcker",
+    "Möbler",
+    "Sport",
+    "Leksaker",
+    "Hushåll",
+    "Övrigt",
+  ];
+
   useEffect(() => {
     const loadItems = async () => {
       const data = await fetchItems();
@@ -57,11 +68,68 @@ const User = () => {
 
         <form onSubmit={handleSubmit} className="bg-white shadow p-4 rounded space-y-3">
           <h3 className="text-lg font-semibold mb-2 cursor-default">Lägg till ny vara</h3>
-          <input name="name" placeholder="Namn" value={form.name} onChange={handleChange} className="border p-2 w-full rounded" />
-          <input name="description" placeholder="Beskrivning" value={form.description} onChange={handleChange} className="border p-2 w-full rounded" />
-          <input name="category" placeholder="Kategori" value={form.category} onChange={handleChange} className="border p-2 w-full rounded" />
-          <input name="price" placeholder="Pris" value={form.price} onChange={handleChange} className="border p-2 w-full rounded" />
-          <button className="bg-blue-600 text-white p-2 w-full rounded hover:bg-blue-700 transition cursor-pointer">Lägg till</button>
+
+          <input 
+            name="name" 
+            placeholder="Namn" 
+            value={form.name} 
+            onChange={handleChange} 
+            autocomplete = "off"
+            className="border p-2 w-full rounded" 
+          />
+          <textarea
+            name="description"
+            placeholder="Beskrivning"
+            value={form.description}
+            onChange={handleChange}
+            rows={3}
+            autocomplete = "off"
+            className="border p-2 w-full rounded resize-none"
+          />
+          
+          {/* Select category dropdown */}
+          <div className="relative w-2/3 mx-auto">
+            <select
+              name="category"
+              value={form.category}
+              onChange={handleChange}
+              className="bg-gray-100 text-black py-1.5 px-4 pr-10 w-full rounded-full appearance-none focus:outline-none cursor-pointer"
+            >
+              <option value="" disabled hidden>
+                Välj kategori
+              </option>
+              {categories.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
+
+            {/* Arrow */}
+            <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center">
+              <svg
+                className="w-4 h-4 text-black"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
+
+          <input
+            name="price"
+            placeholder="Pris"
+            value={form.price}
+            onChange={handleChange}
+            autocomplete = "off"
+            className="border p-2 w-[180px] mx-auto block rounded"
+          />
+
+          <button className="bg-green-600 text-white p-2 w-[180px] mx-auto block rounded hover:bg-green-700 transition cursor-pointer">
+            Lägg till
+          </button>
         </form>
 
       </div>
