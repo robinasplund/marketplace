@@ -2,8 +2,11 @@
 import './App.css';
 import { useEffect } from 'react';
 import { useUserStore } from './store/userStore';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/layout/Header';
 import Auth from './components/auth/Auth';
 import User from './components/User';
+import Browse from './components/layout/Browse';
 
 function App() {
 
@@ -14,8 +17,24 @@ function App() {
     fetchUser();
   }, []);
 
-  if (!user) return <Auth />;
-  return <User />;
+  return(
+    <Router>
+      <Header />
+      <Routes>
+        {!user ? (
+          <Route path="*" element={ <Auth/> } />
+        ) : (
+          <>
+            <Route path="/user" element={ <User /> } />
+            <Route path="/browse" element={ <Browse /> } />
+            <Route path="*" elemnt={ <User/> } />
+          </>
+        )}
+      </Routes>
+    </Router>
+  );
+
+
   
 }
 export default App
