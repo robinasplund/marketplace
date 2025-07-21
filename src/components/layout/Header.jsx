@@ -21,11 +21,11 @@ const Header = () => {
 
       {user && (
         <nav className="flex gap-4 items-center">
-          <Link to="/user" className="hover:underline"> Mina Items </Link>
+          <Link to="/user" className="hover:underline"> Mina varor </Link>
           <Link to="/browse" className='hover:underline'> Sök </Link>
           <button
             onClick={handleLogout}
-            className="bg-red-600 px-3 py-1 rounded hover:bg-red-700"
+            className="bg-red-600 px-3 py-1 rounded hover:bg-red-700 cursor-pointer"
           >
             Logga ut
           </button>

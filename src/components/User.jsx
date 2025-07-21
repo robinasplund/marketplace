@@ -3,9 +3,7 @@ import { useUserStore } from '../store/userStore';
 import Item from './Item.jsx';
 
 const User = () => {
-
   const user = useUserStore((state) => state.user);
-  const signOut = useUserStore((state) => state.signOut);
   const fetchItems = useUserStore((state) => state.fetchItems);
   const addItem = useUserStore((state) => state.addItem);
   const deleteItem = useUserStore((state) => state.deleteItem);
@@ -46,28 +44,38 @@ const User = () => {
   }
 
   return (
-    <div className="p-6">
-      <h2 className="text-xl font-bold mb-4">Välkommen {user.email}</h2>
-      <button 
-        onClick={signOut}
-        className="bg-red-600 text-white px-4 py-2 rounded mb-4"
-      >
-        Logga ut
-      </button>
+    <div className="p-6 flex flex-col lg:flex-row gap-6">
+      
+      {/* Left side: User info + form */}
+      <div className="lg:w-1/4 w-full space-y-6">
+        
+        <div className="bg-white shadow p-4 rounded text-center">
+          <div className="text-5xl mb-2 cursor-default">👤</div>
+          <h2 className="text-xl font-bold mb-1 cursor-default">Välkommen</h2>
+          <p className="text-gray-700 cursor-default">{user.email}</p>
+        </div>
 
-      <form onSubmit={handleSubmit} className="mb-4 space-y-2">
-        <input name="name" placeholder="Namn" value={form.name} onChange={handleChange} className="border p-2 w-full" />
-        <input name="description" placeholder="Beskrivning" value={form.description} onChange={handleChange} className="border p-2 w-full" />
-        <input name="category" placeholder="Kategori" value={form.category} onChange={handleChange} className="border p-2 w-full" />
-        <input name="price" placeholder="Pris" value={form.price} onChange={handleChange} className="border p-2 w-full" />
-        <button className="bg-blue-600 text-white p-2 w-full">Lägg till</button>
-      </form>
+        <form onSubmit={handleSubmit} className="bg-white shadow p-4 rounded space-y-3">
+          <h3 className="text-lg font-semibold mb-2 cursor-default">Lägg till ny vara</h3>
+          <input name="name" placeholder="Namn" value={form.name} onChange={handleChange} className="border p-2 w-full rounded" />
+          <input name="description" placeholder="Beskrivning" value={form.description} onChange={handleChange} className="border p-2 w-full rounded" />
+          <input name="category" placeholder="Kategori" value={form.category} onChange={handleChange} className="border p-2 w-full rounded" />
+          <input name="price" placeholder="Pris" value={form.price} onChange={handleChange} className="border p-2 w-full rounded" />
+          <button className="bg-blue-600 text-white p-2 w-full rounded hover:bg-blue-700 transition cursor-pointer">Lägg till</button>
+        </form>
 
-      <div className="grid gap-4">
-        {items.map((item) => (
-          <Item key={item.id} {...item} deleteItem={() => handleDelete(item.id)} />
-        ))}
       </div>
+
+      {/* Right side: Items */}
+      <div className="lg:w-3/4 w-full">
+        <h3 className="text-lg font-semibold mb-4 cursor-default">Dina varor</h3>
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {items.map((item) => (
+            <Item key={item.id} {...item} deleteItem={() => handleDelete(item.id)} />
+          ))}
+        </div>
+      </div>
+
     </div>
   );
 };

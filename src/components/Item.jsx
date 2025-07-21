@@ -2,7 +2,7 @@
 const Item = ({ name, description, category, price, deleteItem }) => {
   
   return (
-    <div className="bg-white rounded-xl shadow-md p-6 w-full transition hover:shadow-lg border">
+    <div className="bg-white rounded-xl shadow-md p-6 w-full transition hover:shadow-lg border cursor-pointer">
 
       <button 
         className="cursor-pointer"
