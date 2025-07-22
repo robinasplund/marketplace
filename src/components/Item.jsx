@@ -1,6 +1,6 @@
 const Item = ({ name, description, category, price, deleteItem }) => {
   return (
-    <div className="relative bg-white rounded-xl shadow-md p-6 w-full transition hover:shadow-lg border cursor-pointer">
+    <div className="relative bg-lime-50 hover:bg-lime-100 rounded-xl shadow-md p-6 w-full transition hover:shadow-lg border cursor-pointer">
       
       {/* DELETE BUTTON i övre högra hörnet */}
       <button
@@ -31,7 +31,7 @@ const Item = ({ name, description, category, price, deleteItem }) => {
       <div className="flex justify-between items-center">
         <span className="text-lg font-bold text-green-600">{price}</span>
       </div>
-      
+
     </div>
   );
 };
