@@ -24,9 +24,9 @@ const Item = ({ name, description, category, price, deleteItem }) => {
       </button>
 
       {/* INNEHÅLL */}
-      <h3 className="text-xl font-semibold text-gray-800 mb-1">{name}</h3>
+      <h3 className="text-xl font-semibold text-gray-800 mb-1 truncate">{name}</h3>
       <p className="text-sm text-gray-500 mb-2">{category}</p>
-      <p className="text-gray-700 mb-4">{description}</p>
+      <p className="text-gray-700 mb-4 line-clamp-3 min-h-[4.5rem] leading-tight break-words">{description}</p>
       
       <div className="flex justify-between items-center">
         <span className="text-lg font-bold text-green-600">{price}</span>
