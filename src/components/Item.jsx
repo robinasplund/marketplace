@@ -5,11 +5,11 @@ const Item = ({ name, description, category, price, deleteItem }) => {
       {/* DELETE BUTTON i övre högra hörnet */}
       <button
         onClick={deleteItem}
-        className="absolute top-3 right-3 p-1 hover:bg-gray-200 rounded-full cursor-pointer"
+        className="absolute top-3 right-3 p-1 hover:bg-red-200 rounded-full cursor-pointer"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="w-7 h-7 text-gray-600 hover:text-black"
+          className="w-7 h-7 text-gray-400 hover:text-black"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
