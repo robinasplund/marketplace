@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useUserStore } from '../store/userStore';
+import { useUserStore } from '../../store/userStore.js';
 import Item from './Item.jsx';
-import AddItemForm from './AddItemForm';
+import AddItemForm from './AddItemForm.jsx';
 
 const User = () => {
   const user = useUserStore((state) => state.user);

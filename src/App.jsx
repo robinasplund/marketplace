@@ -5,7 +5,7 @@ import { useUserStore } from './store/userStore';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/layout/Header';
 import Auth from './components/auth/Auth';
-import User from './components/User';
+import User from './components/user/User';
 import Browse from './components/layout/Browse';
 
 function App() {
