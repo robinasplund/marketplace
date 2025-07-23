@@ -1,3 +1,4 @@
+
 const Item = ({ name, description, category, price, deleteItem }) => {
   return (
     <div className="relative bg-lime-50 hover:bg-lime-100 rounded-xl shadow-md p-6 w-full transition hover:shadow-lg border cursor-pointer">
