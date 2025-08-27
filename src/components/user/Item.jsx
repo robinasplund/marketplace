@@ -1,5 +1,5 @@
 
-const Item = ({ name, description, category, price, deleteItem }) => {
+const Item = ({ name, description, category, price, image_url, deleteItem }) => {
   return (
     <div className="relative bg-lime-50 hover:bg-lime-100 rounded-xl shadow-md p-6 w-full transition hover:shadow-lg border cursor-pointer">
       
@@ -23,6 +23,15 @@ const Item = ({ name, description, category, price, deleteItem }) => {
           />
         </svg>
       </button>
+
+      {/* BILD */}
+      {image_url && (
+        <img 
+          src={image_url}
+          alt={name}
+          className="w-full h-40 object-cover rounded mb-3"
+        />
+      )}
 
       {/* INNEHÅLL */}
       <h3 className="text-xl font-semibold text-gray-800 mb-1 truncate">{name}</h3>

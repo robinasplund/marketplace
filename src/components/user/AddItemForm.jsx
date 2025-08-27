@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { supabase } from '../../lib/supabase';
 
 const AddItemForm = ({ onAdd }) => {
   
@@ -9,6 +10,8 @@ const AddItemForm = ({ onAdd }) => {
     category: '',
     price: '',
   });
+
+  const [file, setFile] = useState(null);
   const [errors, setErrors] = useState({});
 
   const categories = [
@@ -34,14 +37,38 @@ const AddItemForm = ({ onAdd }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
 
-    await onAdd(form);
+    let imageUrl = '';
+    if(file) {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}.${fileExt}`;
+      const { data, error } = await supabase
+        .storage
+        .from('item-images')
+        .upload(fileName, file);
+
+      if(error) {
+        console.error('image upload failed', error.message);
+        return;
+      }
+
+      const { data: publicUrlData } = supabase
+        .storage
+        .from('item-images')
+        .getPublicUrl(fileName);
+
+      imageUrl = publicUrlData.publicUrl;
+    }
+
+    await onAdd({...form, image_url: imageUrl });
     setForm({ name: '', description: '', category: '', price: '' });
+    setFile(null);
     setErrors({});
   };
 
@@ -116,6 +143,15 @@ const AddItemForm = ({ onAdd }) => {
         {errors.price && <p className="text-red-600 text-sm mt-1 text-center">{errors.price}</p>}
       </div>
 
+      {/* FILUPPLADDNING */}
+
+      <input 
+        type="file"
+        accept="image/*"
+        onChange={(e) => setFile(e.target.files[0])}
+        className='border p-2 w-full rounded'
+      />
+    
       <button className="bg-green-600 text-white p-2 w-[180px] mx-auto block rounded hover:bg-green-700 transition cursor-pointer">
         Lägg till
       </button>
